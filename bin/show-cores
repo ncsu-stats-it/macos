@@ -1,0 +1,6 @@
+#!/bin/sh
+# echo "CPU(s): `sysctl -n hw.ncpu`"
+# sysctl -n hw.logicalcpu
+# sysctl -n hw.physicalcpu
+# getconf _NPROCESSORS_ONLN
+system_profiler SPHardwareDataType | grep Cores

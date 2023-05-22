@@ -1,0 +1,20 @@
+#!/bin/sh
+##
+## Formatting: https://misc.flogisoft.com/bash/tip_colors_and_formatting
+## \e = \033
+##
+if [ $# -lt 1 ]; then
+        echo "Usage: $0 {RPackage} {RPackage}"
+        exit 0
+fi
+cd /Library/Frameworks/R.framework/Resources/library
+CWD=`pwd`
+for a in ${@}
+do
+    if [ -d "/Library/Frameworks/R.framework/Resources/library/$a" ]
+       then
+            echo "R Package: $a is installed."
+       else
+            echo "R Package: \033[1m$a \033[0mis \033[31mNOT \033[39minstalled."
+    fi 
+done
