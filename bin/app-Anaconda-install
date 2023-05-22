@@ -1,0 +1,22 @@
+#!/bin/sh
+CHECK=`which curl`
+if [ "$CHECK" = "" ]; then
+  echo [ curl ] is not found.
+  exit 0
+fi
+WHICHOS=`uname -a | grep x86_64`
+if [ "$WHICHOS" == "" ]; then
+  OSCHECK="arm64"
+else
+  OSCHECK="x86_64"
+fi
+if [ -d /Applications/Anaconda3 ]; then
+       /Applications/Anaconda3/bin/conda deactivate
+       /Applications/Anaconda3/bin/conda update anaconda-navigator
+       exit 0
+fi
+cd ~/Downloads
+curl -s -o Anaconda3.sh https://repo.anaconda.com/archive/Anaconda3-2021.11-MacOSX-x86_64.sh
+bash ~/Downloads/Anaconda3.sh -b -p /Applications/Anaconda3
+/Applications/Anaconda3/bin/conda init zsh
+rm ~/Downloads/Anaconda3.sh

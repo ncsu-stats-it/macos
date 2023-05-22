@@ -1,0 +1,39 @@
+#!/bin/sh
+if [ ! -d /Applications/R.app ]; then
+      echo R should be installed first.
+      exit 0
+fi
+CHECK=`which curl`
+if [ "$CHECK" = "" ]; then
+  echo [ curl ] is not found.
+  exit 0
+fi
+CHECK=`groups $USER | grep -i admin`
+#if [ "$CHECK" = "" ]; then
+#  echo [ $USER ] needs to be a machine Administrator.
+#  exit 0
+#fi
+
+if [ -d /Applications/rstudio.app ]; then
+      sudo /bin/rm -rf /Applications/rstudio.app
+fi
+mkdir /tmp/$$
+cd /tmp/$$
+curl -s -o index.html https://posit.co/download/rstudio-desktop/
+PKGPATH=`cat index.html | grep dmg | awk 'NR == 1 {print}' | cut -f3 -d= | cut -f2 -d\"`
+
+curl -s -L -o rstudio.dmg $PKGPATH
+open rstudio.dmg
+sleep 15
+MOUNTDIR=`df -k | grep RStudio | awk '{print $9}'`
+sudo /bin/cp -R $MOUNTDIR/RStudio.app /Applications
+sleep 15
+rm index.html
+cd /tmp
+\rm -rf /tmp/$$
+umount $MOUNTDIR
+if [ -d /Applications/rstudio.app ]; then
+      echo [RStudio] app was installed in /Applications.
+else
+      echo [RStudio] app was NOT installed.
+fi

@@ -1,0 +1,16 @@
+#!/bin/sh
+# CHECK=`groups $USER | grep -i admin`
+# if [ "$CHECK" = "" ]; then
+#  echo [ $USER ] needs to be a machine Administrator.
+#  exit 0
+# fi
+sudo mkdir -p /Applications/ST
+sudo /bin/cp -R /usr/local/ncsu/apps/mount* /Applications/ST
+echo [HomeBrew]............................
+/usr/local/ncsu/bin/app-homebrew-install
+echo [VSCode]..............................
+/usr/local/ncsu/bin/app-VSCode-install
+echo [texstudio]...........................
+/usr/local/ncsu/bin/app-texstudio-install
+echo [R]...................................
+/usr/local/ncsu/bin/app-R-install

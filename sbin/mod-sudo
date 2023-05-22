@@ -1,0 +1,19 @@
+#!/bin/sh
+if [ ! "$SUDO_USER" ]; then
+   echo "ERROR: sudo $0"
+   exit 0
+fi 
+chmod 644 /etc/sudoers
+LINE=`cat /etc/sudoers | grep %admin`
+# echo $LINE
+CHECK=`echo $LINE | grep -i PASSWD`
+if [ ! "$CHECK" ]; then
+   cp /etc/sudoers /etc/sudoers-orig
+   NLINE=`echo $LINE | sed -e 's/) ALL/) NOPASSWD: ALL/'`
+   # echo $NLINE
+   echo "/etc/sudoers modified"
+   sudo sed -i "" "s|$LINE|$NLINE|" /etc/sudoers
+else
+   echo "/etc/sudoers not modified"
+fi
+chmod 440 /etc/sudoers

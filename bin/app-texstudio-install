@@ -1,0 +1,35 @@
+#!/bin/sh
+CHECK=`which curl`
+if [ "$CHECK" = "" ]; then
+  echo [ curl ] is not found.
+  exit 0
+fi
+# CHECK=`groups $USER | grep -i admin`
+#if [ "$CHECK" = "" ]; then
+#  echo [ $USER ] needs to be a machine Administrator.
+#  exit 0
+#fi
+if [ -d /Applications/texstudio.app ]; then
+      sudo /bin/rm -rf /Applications/texstudio.app
+fi
+mkdir /tmp/$$
+cd /tmp/$$
+curl -s -o index.html https://texstudio.org/index.html
+PKGPATH=`cat index.html | grep dmg | cut -f6 -d\" | awk 'NR == 1 {print}'`
+# echo $PKGPATH
+curl -s -L -o texstudio.dmg $PKGPATH
+# wget -q $PKGPATH
+PKGNAME=`ls *.dmg`
+open $PKGNAME
+sleep 15
+cd /Volumes/texstudio
+sudo /bin/cp -R texstudio.app /Applications
+sleep 15
+cd /tmp
+/bin/rm -rf /tmp/$$
+umount /Volumes/texstudio
+if [ -d /Applications/texstudio.app ]; then
+      echo [TeXStudio] app was installed in /Applications
+else
+      echo [TeXStudio] was NOT installed.
+fi

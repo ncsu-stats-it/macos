@@ -1,0 +1,22 @@
+#!/bin/sh
+# Source: https://mac.r-project.org/tools/
+CHECK=`which curl`
+if [ "$CHECK" = "" ]; then
+  echo [ curl ] is not found.
+  exit 0
+fi
+WHICHOS=`uname -a | grep x86_64`
+if [ "$WHICHOS" == "" ]; then
+  OSCHECK="arm64"
+  cd /tmp
+  curl -s -L -o gfortran.pkg https://mac.r-project.org/tools/gfortran-12.2-universal.pkg 
+  
+  ### curl -s -o gfortran-arm64.tar.xz https://mac.r-project.org/tools/gfortran-12.0.1-20220312-is-darwin20-arm64.tar.xz
+  ### sudo tar fxz gfortran-arm64.tar.xz -C /
+  ### echo "{Add} /opt/R/arm64/gfortran/bin to .zshrc PATH"
+  sudo installer -pkg gfortran.pkg -target / 
+  echo "{Add} /opt/gfortran/bin to .zshrc PATH"
+  \rm gfortran.pkg
+else
+  OSCHECK="x86_64"
+fi

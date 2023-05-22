@@ -1,0 +1,18 @@
+#!/bin/sh
+if ! [ -z "$SUDO_USER" ]; then
+  echo Do NOT run as root!
+  exit 0
+fi
+CHECK=`which wget`
+if [ "$CHECK" = "" ]; then
+  echo [ wget ] should be installed from Homebrew.
+  exit 0
+fi
+
+if [ -d "/Applications/Visual Studio Code.app" ]; then
+      sudo /bin/rm -rf "/Applications/Visual Studio Code.app"
+fi
+brew install --cask visual-studio-code
+# brew install --cask cyberduck
+# brew install --cask zoom
+echo [Visual Studio Code] app was installed in /Applications
