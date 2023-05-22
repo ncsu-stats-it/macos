@@ -1,0 +1,8 @@
+#!/bin/bash
+if [ $# -lt 1 ]; then
+   sudo scutil --get ComputerName
+else
+   sudo scutil --set ComputerName "$*"
+   echo -n Machine Renamed to : ''
+   sudo scutil --get ComputerName
+fi
